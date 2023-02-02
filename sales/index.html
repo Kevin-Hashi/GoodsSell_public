@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+    </head>
+    <body>
+        <button id="submit">submit</button>
+        <input
+            id="sheetId"
+            value="スプレッドシートのID"
+        />
+        <button id="add">add</button>
+        <div>
+            アイテム一覧のシート名:<input
+                id="sheetNameItemList"
+                type="text"
+                value="アイテム一覧"
+            /><br />
+            アイテムグループのシート名:<input
+                id="sheetNameItemGroup"
+                type="text"
+                value="アイテムグループ"
+            /><br />
+            <button id="submitItemListAndGroup">これで決定</button>
+        </div>
+        <div>
+            注文内容のシート名:<input
+                id="sheetNameOrderList"
+                type="text"
+                value="注文内容"
+            />注文番号:<input id="orderNumber" type="number" /><br /><button
+                id="submitOrderItem"
+            >
+                これで決定
+            </button>
+        </div>
+        <div>
+            <button id="submitCompletePayment">支払い完了</button>
+        </div>
+        <script src="js/connect.js"></script>
+        <script src="js/sheet_name.js"></script>
+        <script src="js/itemlist.js"></script>
+        <script src="js/main.js"></script>
+    </body>
+</html>

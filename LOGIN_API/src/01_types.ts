@@ -1,0 +1,3 @@
+interface LoginData {
+    password: string;
+}
