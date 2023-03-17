@@ -2,6 +2,8 @@ const oprationConf = {
     GET_ORDER: "GET_ORDER",
     ADD_ORDER: "ADD_ORDER",
     EDIT_ORDER: "EDIT_ORDER",
+    EDIT_ORDER_BY_FINDER: "EDIT_ORDER_BY_FINDER",
+    ADD_SHEET_NAME: "ADD_SHEET_NAME",
     GET_SHEETS_NAME: "GET_SHEETS_NAME",
     GET_SHEET_DATA: "GET_SHEET_DATA",
 } as const;
@@ -12,7 +14,7 @@ const parameterConf = { OPARATION: "oprationType" };
 
 const lockWaitTime = 5000;//ms
 
-function doPost(e: GoogleAppsScript.Events.DoPost) {
+function doPost(e: GoogleAppsScript.Events.DoPost): GoogleAppsScript.Content.TextOutput {
     const scriptLock = LockService.getScriptLock();
     try {
         //@ts-ignore
@@ -23,12 +25,18 @@ function doPost(e: GoogleAppsScript.Events.DoPost) {
         //@ts-ignore
         if (!(oprationConfSet.has(oprationType))) return returnData({ status: Status.MISSED, errorcode: ErrorCode.ImplementError });
 
-        const sheetData = jsonData.sheetData;
+        const sheetData: SheetData = jsonData.data.sheetData;
         if (oprationType === oprationConf.ADD_ORDER) {
             if (scriptLock.tryLock(lockWaitTime)) return Opration.addOrderOpration(orderOpration, sheetData, jsonData, scriptLock);
             else return returnLockTimeError();
         } else if (oprationType === oprationConf.EDIT_ORDER) {
-            if (scriptLock.tryLock(lockWaitTime)) return Opration.editOrderOpration(orderOpration,sheetData, jsonData, scriptLock);
+            if (scriptLock.tryLock(lockWaitTime)) return Opration.editOrderOpration(orderOpration, sheetData, jsonData, scriptLock);
+            else return returnLockTimeError();
+        } else if (oprationType === oprationConf.EDIT_ORDER_BY_FINDER) {
+            if (scriptLock.tryLock(lockWaitTime)) return Opration.editOrderByFinderOpration(orderOpration, sheetData, jsonData, scriptLock);
+            else return returnLockTimeError();
+        } else if (oprationType === oprationConf.ADD_SHEET_NAME) {
+            if (scriptLock.tryLock(lockWaitTime)) return Opration.addSheetNameOpration(orderOpration, sheetData, jsonData, scriptLock);
             else return returnLockTimeError();
         }
         //@ts-ignore
@@ -40,15 +48,16 @@ function doPost(e: GoogleAppsScript.Events.DoPost) {
                     SheetOrderOpration.initSheet(orderOpration, sheetData);
                     if (oprationType === oprationConf.GET_ORDER) return Opration.getOrderOpration(jsonData, orderOpration);
                     if (oprationType === oprationConf.GET_SHEET_DATA) return Opration.getSheetDataOpration(orderOpration);
+                    return returnData({ status: Status.MISSED, errorcode: ErrorCode.TypeError });
                 }
             } else return returnLockTimeError();
         } else return returnData({ status: Status.MISSED, errorcode: ErrorCode.TypeError });
     } catch (e) {
         scriptLock.releaseLock();
-        return returnData({ status: Status.MISSED, data: { errorName: e.name, errorMessage: e.message } });
+        return returnData({ status: Status.MISSED, data: { errorName: e.name, errorMessage: e.message, fileName: e.fileName ? e.fileName : -1, line: e.lineNumber ? e.lineNumber : -1 } });
     }
 }
 
-function returnLockTimeError() {
+function returnLockTimeError(): GoogleAppsScript.Content.TextOutput {
     return returnData({ status: Status.MISSED, errorcode: ErrorCode.LockTimeOut });
 }

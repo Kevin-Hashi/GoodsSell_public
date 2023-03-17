@@ -22,10 +22,16 @@ interface RecordGet {
     col: number,
     finder: any;
 }
-interface RecordEdit extends RecordGet {
+type RecordEdit = {
+    data: any;
+    row: number;
+    col: number;
+}[];
+interface RecordEditByFinder extends RecordGet {
     editCol: number,
     value: string | number | boolean;
 }
+
 type OprationData = typeof oprationConf[keyof typeof oprationConf];
 interface SheetPostData {
     sheetData: SheetData,

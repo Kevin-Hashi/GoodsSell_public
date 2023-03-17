@@ -12,3 +12,5 @@
 .git/**
 node_modules/**
 SS_PASS/*
+dist/**
+docs/**

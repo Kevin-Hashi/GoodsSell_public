@@ -1,0 +1,6 @@
+mixin page(id,hide=true)
+    - const classList = ["page"].concat(hide?["hide"]:[]);
+    div(id=id class=classList)
+        .content
+            if block
+                block

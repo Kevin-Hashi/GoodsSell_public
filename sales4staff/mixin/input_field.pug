@@ -1,0 +1,16 @@
+mixin input_field(options)
+    -
+        const option = options || {};
+        const inputId = option.inputId || "";
+        const classList = option.classList || "";
+        const inputType = option.type || "text";
+        const placeholder = option.placeholder || "";
+        const value = option.value || "";
+        const required = ("required" in option) ? options.required : false;
+        const labelText = option.labelText || "";
+    .input-field.col.s12
+        input(id=inputId class=classList type=inputType placeholder=placeholder value=value required=required aria-required=required)
+        if labelText != ""
+            label.fit= labelText
+        if block
+            block

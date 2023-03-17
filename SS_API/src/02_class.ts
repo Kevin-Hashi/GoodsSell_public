@@ -11,20 +11,20 @@ class SpreadSheet {
             this.sheetData = sheetData;
         }
     }
-    setSheetData(sheetData: SheetData) {
+    setSheetData(sheetData: SheetData): void {
         this.sheetData = sheetData;
     }
-    openSpreadSheet() {
+    openSpreadSheet(): void {
         this.#spreadSheet = SpreadsheetApp.openById(this.sheetData.sheetId);
     }
-    openSheet() {
+    openSheet(): void {
         const sheet = this.spreadSheet.getSheetByName(this.sheetData.sheetName);
         if (sheet) this.#sheet = sheet;
     }
-    readSheet() {
+    readSheet(): void {
         this.#sheetArray = this.sheet.getDataRange().getValues();
     }
-    initSheet() {
+    initSheet(): void {
         this.openSpreadSheet();
         this.openSheet();
         this.readSheet();
@@ -43,7 +43,7 @@ class OrderOpration {
         const data = this.spreadSheet.sheetArray[index];
         return { row: index, data: data };
     }
-    addOrder(recordData: RecordData) {
+    addOrder(recordData: RecordData): void {
         if (recordData.row) {
             this.spreadSheet.sheet.insertRowAfter(recordData.row);
             this.spreadSheet.sheet.getRange(recordData.row + 1 + this.withoutRow, 1, 1).setValues([recordData.data]);
@@ -53,14 +53,14 @@ class OrderOpration {
         }
         this.spreadSheet.readSheet();
     }
-    addOrders(recordDataArray: RecordDataArray) {
+    addOrders(recordDataArray: RecordDataArray): void {
         if (recordDataArray.row) {
             this.spreadSheet.sheet.insertRowsAfter(recordDataArray.row, recordDataArray.data.length);
             this.spreadSheet.sheet.getRange(recordDataArray.row + 1 + this.withoutRow, 1, recordDataArray.data.length).setValues(recordDataArray.data);
         }
         else {
             const row = this.spreadSheet.sheetArray.length;
-            const col = this.spreadSheet.sheetArray[0].length;
+            const col = this.spreadSheet.sheetArray[0].length || recordDataArray.data[0].length;
             this.spreadSheet.sheet.getRange(row + this.withoutRow, 1, recordDataArray.data.length, col).setValues(recordDataArray.data);
         }
         this.spreadSheet.readSheet();

@@ -1,7 +1,13 @@
 {
+  "name": "ss_api",
+  "version": "1.0.0",
   "dependencies": {
     "@types/google-apps-script": "^1.0.57",
     "clasp": "^1.0.0",
+    "typedoc": "^0.23.26",
     "typescript": "^4.9.4"
+  },
+  "scripts": {
+    "typedoc": "typedoc --out docs ./src/doPost.ts --entryPointStrategy expand ./src"
   }
 }

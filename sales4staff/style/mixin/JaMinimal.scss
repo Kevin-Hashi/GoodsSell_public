@@ -1,0 +1,15 @@
+@import "./fonts.scss";
+@mixin JaMinimal($weight: null) {
+    @include font-face(
+        "JaMinimal",
+        "../../font/JaMinimal.otf",
+        $weight,
+        otf
+    );
+    @include font-face(
+        "JaMinimalMono",
+        "../../font/JaMinimalMono.otf",
+        $weight,
+        otf
+    );
+}

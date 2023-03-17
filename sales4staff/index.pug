@@ -1,0 +1,101 @@
+doctype html
+html(lang="ja")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title グッズ販売画面
+        link(rel="icon" href="./favicon.ico" sizes="any")
+        link(rel="icon" href="./favicon.svg" type="image/svg+xml")
+        link(rel="icon" href="./apple-touch-icon.png")
+        link(rel="stylesheet" href="./style/reset.css")
+        //link(rel="stylesheet" href="./modules/materialize-src/sass/dist/materialize.css")
+        link(href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet")
+        link(rel="stylesheet" href="./style/dist/main.min.css")
+        script(src="./modules/materialize-src/js/bin/materialize.min.js")
+    body
+        include mixin/page
+        include mixin/breadcrumb
+        include mixin/input_field
+        include mixin/button
+        +breadcrumb
+        +page("sheetIdPage", false)
+            +input_field({
+                inputId:"sheetId",
+                classList:["monofont","validate"],
+                placeholder:"sheetId",
+                required:true,
+                labelText:"シートID"
+            })
+            +button("sheetIdButton","押してね")
+        +page("sheetNamePage")
+            +input_field({
+                inputId:"sheetNameItemList",
+                classList:["validate"],
+                placeholder:"アイテム一覧シート名",
+                value:"アイテム一覧",
+                required:true,
+                labelText:"アイテム一覧シート名"
+            })
+            +input_field({
+                inputId:"sheetNameItemGroup",
+                classList:["validate"],
+                placeholder:"アイテムグループシート名",
+                value:"アイテムグループ",
+                required:true,
+                labelText:"アイテムグループシート名"
+            })
+            +input_field({
+                inputId:"sheetNameProperty",
+                classList:["validate"],
+                placeholder:"プロパティシート名",
+                value:"プロパティ",
+                required:true,
+                labelText:"プロパティシート名"
+            })
+            +button("sheetNameButton","押してね")
+        #orderPageLoader.page.progress.hide
+            .indeterminate
+        +page("orderPage")
+            +input_field({
+                inputId:"sheetNameOrder",
+                classList:["validate"],
+                placeholder:"注文シート名",
+                value:"フォームの回答 1",
+                required:true,
+                labelText:"注文シート名"
+            })
+            +input_field({
+                inputId:"orderNumber",
+                classList:["monofont", "validate"],
+                type:"number",
+                placeholder:"注文番号",
+                required:true,
+                labelText:"注文番号"
+            })
+            +button("orderNumberButton","押してね")
+        #errorModal.modal
+            .modal-content
+                h4 エラーが発生しました
+                p 各設定を見直してください
+                p#errorMessage
+            .modal-footer
+                span.modal-close.waves-effect.btn-flat Close
+        #alreadyPaidModal.modal
+            .modal-content
+                p 注文番号:
+                    b#alreadyPaidOrderNumber
+                    |はすでに決済済みです。
+            .modal-footer
+                span.modal-close.waves-effect.btn-flat Close
+        #orderItemModal.modal.modal-fixed-footer
+            .modal-content
+                p 合計金額:
+                    b#orderTotalAmount
+                    |円
+                table#orderItemTable
+                    thead#orderItemThead
+                    tbody#orderItemTbody
+            .modal-footer
+                span#rejectPayment.modal-close.waves-effect.waves-red.btn-flat Reject
+                span#acceptPayment.modal-close.waves-effect.waves-green.btn-flat Accept
+        script(src="./dist/index.js")

@@ -1,0 +1,9 @@
+@import "./fonts.scss";
+@mixin JetBrains_mono($weight: null) {
+    @include font-face(
+        "JetBrains Mono",
+        "../../font/JetBrainsMono[wght].ttf",
+        $weight,
+        ttf
+    );
+}

@@ -1,0 +1,62 @@
+$main-color: #0a0a0a;
+$main-bg-color: #fafafa;
+
+@import "./color";
+@import "./font";
+@import "../modules/materialize-src/sass/materialize.scss";
+
+body {
+    overflow: hidden;
+    color: $main-color;
+    background-color: $main-bg-color;
+    font-size: large;
+    @extend .valign-wrapper;
+    justify-content: center;
+    position: relative;
+    @extend .sans;
+}
+nav {
+    position: absolute;
+    top: 0;
+    padding-left: 10%;
+}
+
+p,
+input {
+    @extend .sans;
+}
+.input-field {
+    > input:not(.browser-default) {
+        font-size: large;
+        + label.fit {
+            width: fit-content;
+            font-size: large;
+        }
+    }
+    &:has(> input:placeholder-shown) {
+        ~ * > button {
+            @extend .disabled;
+        }
+    }
+}
+.button {
+    @extend .btn-large, .waves-light;
+    font-size: x-large;
+}
+
+.breadcrumb {
+    cursor: pointer;
+}
+
+.page {
+    @extend .container;
+}
+
+.monofont {
+    font-family: "JetBrains Mono", "JaMinimalMono", "Courier New",
+        Courier, Monaco, monospace;
+}
+
+.sans {
+    font-family: "JaMinimal", Roboto, sans-serif;
+}

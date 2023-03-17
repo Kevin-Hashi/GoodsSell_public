@@ -1,0 +1,297 @@
+@startuml sales4staff
+class Breadcrumb {
+    +element: HTMLSpanElement
+    +onclick: (this: GlobalEventHandlers, ev: MouseEvent) => any
+    +onclick: (this: GlobalEventHandlers, ev: MouseEvent) => any
+    +removeFromDOM(): HTMLSpanElement
+    +attachToDOM(parentElement: HTMLElement): void
+}
+class BreadcrumbList {
+    +list: Breadcrumb[]
+    +last: Breadcrumb
+    -containerElement: HTMLElement
+    -addElement(element: Breadcrumb): number
+    -include(element: Breadcrumb): boolean
+    -lastIs(element: Breadcrumb): boolean
+    +addLast(element: Breadcrumb): void
+    +removeLast(): HTMLSpanElement
+    +removeUntil(element: Breadcrumb): void
+}
+namespace CheckDigit {
+    class Damm {
+        +opTable: readonly [readonly [0, 3, 1, 7, 5, 9, 8, 6, 4, 2], readonly [7, 0, 9, 2, 1, 5, 4, 8, 6, 3], readonly [4, 2, 0, 6, 8, 7, 1, 3, 5, 9], readonly [1, 7, 5, 0, 9, 8, 3, 4, 2, 6], readonly [6, 1, 2, 3, 0, 4, 5, 9, 7, 8], readonly [...], readonly [...], readonly [...], readonly [...], readonly [...]]
+        +computeFromNumVals(ns: number[]): number[]
+        +compute(s: string): string
+        +parse(s: string): [string, string]
+        +generate(s: string): string
+        +validate(s: string): boolean
+    }
+}
+abstract class ExtendBaseError extends Error
+class GASfetchError extends ExtendBaseError
+class EmptyOrderError extends ExtendBaseError
+class InvalidOrderNumberError extends ExtendBaseError
+namespace GetElement {
+}
+class TextContent {
+    +textContent: string
+    +toHtml(): string
+}
+abstract class TableElement {
+    #{abstract} tag: "thead" | "tbody" | "tfoot" | "tr" | "td" | "th"
+    #children: (TableElement | TextContent)[]
+    +appendChild(child: TableElement | TextContent): TableElement
+    +toHtml(): string
+}
+class TableHead extends TableElement {
+    #tag: "thead"
+}
+class TableBody extends TableElement {
+    #tag: "tbody"
+}
+class Tr extends TableElement {
+    #tag: "tr"
+}
+class Th extends TableElement {
+    #tag: "th"
+}
+class Td extends TableElement {
+    #tag: "td"
+}
+class ErrorModal {
+    +errorModalMessageId: string
+    +open(errorModalMessage: string): void
+    +open(): never
+    +open(errorModalMessage?: string): void
+    +close(): void
+}
+class AlreadyPaidModal {
+    +alreadyPaidOrderNumberId: string
+    +open(alreadyPaidOrderNumber: string): void
+    +open(): never
+    +open(alreadyPaidOrderNumber?: string): void
+    +close(): void
+}
+class OrderItemModal {
+    +orderTotalAmountId: string
+    +orderTableId: { theadId: string; tbodyId: string; }
+    +open(orderData: { totalAmount: string; orderItemTHead: TableHead; orderItemTBody: TableBody; }): void
+    +open(): never
+    +open(orderData?: { totalAmount: string; orderItemTHead: TableHead; orderItemTBody: TableBody; }): void
+    +close(): void
+}
+namespace Visibility {
+}
+abstract class PageAndBreadcrumbListBase {
+    #pageId: string
+    #pageBreadCrumb: Breadcrumb
+    #breadcrumbList: BreadcrumbList
+    +{abstract} action(): void
+    +{abstract} leaveAfterThisPage(): void
+    #visibleThisPage(): void
+    #invisibleThisPage(): void
+    +leaveThisPage(): void
+}
+abstract class FirstPageAndBreadcrumbList extends PageAndBreadcrumbListBase {
+    +nextPageAndBreadcrumbList?: LastPageAndBreadcrumbList
+    +backToThisPage(): void
+    +leaveAfterThisPage(): void
+}
+abstract class LastPageAndBreadcrumbList extends PageAndBreadcrumbListBase {
+    +comeToThisPage(): void
+    +leaveAfterThisPage(): void
+}
+abstract class PageAndBreadcrumbList extends FirstPageAndBreadcrumbList implements LastPageAndBreadcrumbList {
+    +comeToThisPage(): void
+}
+interface ItemCol extends Object {
+    +itemCol: number
+}
+interface ItemColWithSize extends ItemCol {
+    +sizeCol: number
+}
+interface ItemGroup {
+    +name: string
+    +itemColList: ItemColList
+    +type: "ByName" | "ByQuantity"
+}
+class ItemGroupMap extends Map
+interface ItemDataBase {
+    +name: string
+    +itemGroupName: string
+    +size: string
+}
+interface ItemData extends ItemDataBase {
+    +price: number
+}
+class ItemDataMap extends Map
+class ItemDataGroup extends Map
+namespace DefinedType {
+}
+interface SheetIdName {
+    +sheetId: string
+    +sheetName?: string
+}
+interface GASRequestBodyTypeBase {
+    +oprationType: "GET_ORDER" | "ADD_ORDER" | "EDIT_ORDER" | "EDIT_ORDER_BY_FINDER" | "ADD_SHEET_NAME" | "GET_SHEETS_NAME" | "GET_SHEET_DATA"
+    +data: { sheetData: SheetIdName; }
+}
+interface AddRecordDataBase {
+    +row?: number
+}
+interface AddRecordData extends AddRecordDataBase {
+    +data: cell[]
+}
+interface AddRecordDataArray extends AddRecordDataBase {
+    +data: cell[][]
+}
+interface EditByFinderRecordData extends RecordGet {
+    +editCol: number
+    +value: cell
+}
+interface GASRequestBodyAddData extends GASRequestBodyTypeBase {
+    +data: { sheetData: SheetIdName; addData: AddRecordData | AddRecordDataArray; }
+}
+interface GASRequestBodyEditData extends GASRequestBodyTypeBase {
+    +data: { sheetData: SheetIdName; editData: EditRecordData; }
+}
+interface GASRequestBodyEditByFinderData extends GASRequestBodyTypeBase {
+    +data: { sheetData: SheetIdName; editDataByFinder: EditByFinderRecordData; }
+}
+interface GASRequestBodyAddSheetName extends GASRequestBodyTypeBase {
+    +data: { sheetData: SheetIdName; addSheetName: string; }
+}
+interface GASRequestBodyGetSheetsName extends GASRequestBodyTypeBase
+interface RecordGet {
+    +col: number
+    +finder: cell
+}
+interface GASRequestBodyGetData extends GASRequestBodyTypeBase {
+    +data: { sheetData: SheetIdName; getData: RecordGet; }
+}
+interface GASRequestBodyGetSheetData extends GASRequestBodyTypeBase
+interface GetInitSheetDataSheetNames {
+    +itemList: string
+    +itemGroup: string
+    +property: string
+}
+interface PropertyCol {
+    +mailAddress: number
+    +orderNumber: number
+    +name: number
+    +bought: number
+    +studentNumber: number
+    +timestamp: number
+}
+namespace DefinedType {
+}
+class ItemList {
+    #itemGroupMap: ItemGroupMap
+    #itemDataGroup: ItemDataGroup
+    +forEachItemGroupMap: any
+    +forEachItemDataGroup: any
+    +addItemGroup(itemGroup: ItemGroup): void
+    +addItem(itemData: ItemData): void
+    +getItemGroup(itemGroupName: string): ItemGroup
+    +getItemDataMap(itemGroup: ItemGroup): ItemDataMap
+    #initItemDataMap(itemGroup: ItemGroup): void
+    +{static} createItemDataId(itemData: ItemDataBase): string
+}
+class SellSystem {
+    #sheetId: string
+    #orderSheetName: string
+    #itemList: ItemList
+    #scriptUrl: RequestInfo | URL
+    #fetchRetryCount: number
+    +setSheetId(sheetId: string): void
+    +setOrderSheetName(sheetName: string): void
+    #_propertyCol: PropertyCol
+    #getInitData(sheetData: { itemList: SheetData; itemGroup: SheetData; property: SheetData; }): void
+    #parseOrder(order: RowData): [Map<ItemData, number>, number]
+    -{static} getMapWithoutUndefined(map: Map<T, S>, key: T): S
+    -{static} addOrderItem(item: ItemData, num: number, numOfItem: Map<ItemData, number>): void
+}
+class SellSystemForWeb extends SellSystem {
+    +getInitSheetData(sheetNames: GetInitSheetDataSheetNames): Promise<void>
+    #getOrder(orderNumber: number): Promise<RowData>
+    +orderItem(orderNumber: number): Promise<{ data: [Map<ItemData, number>, number]; alreadyPaid: boolean; }>
+    +recordBought(orderNumber: number): Promise<{ [key: string]: any; }>
+}
+class PaymentToast {
+    +orderNumber: string
+    +accept(): void
+    +reject(): void
+}
+class OrderNumberPage extends LastPageAndBreadcrumbList {
+    +errorModal: ErrorModal
+    +alreadyPaidModal: AlreadyPaidModal
+    +orderItemModal: OrderItemModal
+    +paymentToast: PaymentToast
+    #sellSystem: SellSystemForWeb
+    #sheetNameId: string
+    #orderNumberInputId: string
+    +action(): Promise<void>
+    -getOrderData(): { orderNumber: number; data: Promise<{ data: [Map<ItemData, number>, number]; alreadyPaid: boolean; }>; }
+    +acceptPayment(): Promise<void>
+    +rejectPayment(): void
+}
+class SheetIDPage extends FirstPageAndBreadcrumbList {
+    #sellSystem: SellSystem
+    #sheetIdInputId: string
+    +action(): void
+}
+interface SheetNameID {
+    +sheetNameItemList: string
+    +sheetNameItemGroup: string
+    +sheetNameProperty: string
+}
+class SheetNamePage extends PageAndBreadcrumbList {
+    +errorModal: ErrorModal
+    #loaderPageId: string
+    #sellSystem: SellSystemForWeb
+    #sheetNameID: SheetNameID
+    +action(): Promise<void>
+    +leaveThisPage(): void
+    -visibleLoader(): void
+    -invisibleLoader(): void
+}
+BreadcrumbList --> "*" Breadcrumb
+BreadcrumbList --> "1" Breadcrumb
+TableElement --> "1" TextContent
+OrderItemModal --> "1" TableHead
+OrderItemModal --> "1" TableBody
+PageAndBreadcrumbListBase --> "1" Breadcrumb
+PageAndBreadcrumbListBase --> "1" BreadcrumbList
+FirstPageAndBreadcrumbList --> "1" LastPageAndBreadcrumbList
+GASRequestBodyTypeBase --> "1" SheetIdName
+GASRequestBodyAddData --> "1" SheetIdName
+GASRequestBodyAddData --> "1" AddRecordData
+GASRequestBodyAddData --> "1" AddRecordDataArray
+GASRequestBodyEditData --> "1" SheetIdName
+GASRequestBodyEditByFinderData --> "1" SheetIdName
+GASRequestBodyEditByFinderData --> "1" EditByFinderRecordData
+GASRequestBodyAddSheetName --> "1" SheetIdName
+GASRequestBodyGetData --> "1" SheetIdName
+GASRequestBodyGetData --> "1" RecordGet
+ItemList --> "1" ItemGroupMap
+ItemList --> "1" ItemDataGroup
+ItemList --> "1" ItemGroup
+ItemList --> "1" ItemData
+ItemList --> "1" ItemDataMap
+ItemList --> "1" ItemDataBase
+SellSystem --> "1" ItemList
+SellSystem --> "1" PropertyCol
+SellSystem --> "1" ItemData
+SellSystemForWeb --> "1" GetInitSheetDataSheetNames
+SellSystemForWeb --> "1" ItemData
+OrderNumberPage --> "1" ErrorModal
+OrderNumberPage --> "1" AlreadyPaidModal
+OrderNumberPage --> "1" OrderItemModal
+OrderNumberPage --> "1" PaymentToast
+OrderNumberPage --> "1" SellSystemForWeb
+OrderNumberPage --> "1" ItemData
+SheetIDPage --> "1" SellSystem
+SheetNamePage --> "1" ErrorModal
+SheetNamePage --> "1" SellSystemForWeb
+SheetNamePage --> "1" SheetNameID
+@enduml

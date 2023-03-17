@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>グッズ販売画面</title>
+    <link rel="icon" href="./favicon.ico" sizes="any">
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="./apple-touch-icon.png">
+    <link rel="stylesheet" href="./style/reset.css">
+    <!--link(rel="stylesheet" href="./modules/materialize-src/sass/dist/materialize.css")-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="./style/dist/main.min.css">
+    <script src="./modules/materialize-src/js/bin/materialize.min.js"></script>
+  </head>
+  <body>
+        <nav>
+          <div class="nav-wrapper">
+            <div class="col s12" id="breadcrumb-wrapper">
+            </div>
+          </div>
+        </nav>
+        <div class="page" id="sheetIdPage">
+          <div class="content">
+                <div class="input-field col s12">
+                  <input class="monofont validate" id="sheetId" type="text" placeholder="sheetId" value="" required aria-required>
+                  <label class="fit">シートID</label>
+                </div>
+                <div class="col">
+                  <button class="button waves-light waves-effect" id="sheetIdButton" type="button">押してね</button>
+                </div>
+          </div>
+        </div>
+        <div class="page hide" id="sheetNamePage">
+          <div class="content">
+                <div class="input-field col s12">
+                  <input class="validate" id="sheetNameItemList" type="text" placeholder="アイテム一覧シート名" value="アイテム一覧" required aria-required>
+                  <label class="fit">アイテム一覧シート名</label>
+                </div>
+                <div class="input-field col s12">
+                  <input class="validate" id="sheetNameItemGroup" type="text" placeholder="アイテムグループシート名" value="アイテムグループ" required aria-required>
+                  <label class="fit">アイテムグループシート名</label>
+                </div>
+                <div class="input-field col s12">
+                  <input class="validate" id="sheetNameProperty" type="text" placeholder="プロパティシート名" value="プロパティ" required aria-required>
+                  <label class="fit">プロパティシート名</label>
+                </div>
+                <div class="col">
+                  <button class="button waves-light waves-effect" id="sheetNameButton" type="button">押してね</button>
+                </div>
+          </div>
+        </div>
+    <div class="page progress hide" id="orderPageLoader">
+      <div class="indeterminate"></div>
+    </div>
+        <div class="page hide" id="orderPage">
+          <div class="content">
+                <div class="input-field col s12">
+                  <input class="validate" id="sheetNameOrder" type="text" placeholder="注文シート名" value="フォームの回答 1" required aria-required>
+                  <label class="fit">注文シート名</label>
+                </div>
+                <div class="input-field col s12">
+                  <input class="monofont validate" id="orderNumber" type="number" placeholder="注文番号" value="" required aria-required>
+                  <label class="fit">注文番号</label>
+                </div>
+                <div class="col">
+                  <button class="button waves-light waves-effect" id="orderNumberButton" type="button">押してね</button>
+                </div>
+          </div>
+        </div>
+    <div class="modal" id="errorModal">
+      <div class="modal-content">
+        <h4>エラーが発生しました</h4>
+        <p>各設定を見直してください</p>
+        <p id="errorMessage"></p>
+      </div>
+      <div class="modal-footer"><span class="modal-close waves-effect btn-flat">Close</span></div>
+    </div>
+    <div class="modal" id="alreadyPaidModal">
+      <div class="modal-content">
+        <p>注文番号:<b id="alreadyPaidOrderNumber"></b>はすでに決済済みです。</p>
+      </div>
+      <div class="modal-footer"><span class="modal-close waves-effect btn-flat">Close</span></div>
+    </div>
+    <div class="modal modal-fixed-footer" id="orderItemModal">
+      <div class="modal-content">
+        <p>合計金額:<b id="orderTotalAmount"></b>円</p>
+        <table id="orderItemTable">
+          <thead id="orderItemThead"></thead>
+          <tbody id="orderItemTbody"></tbody>
+        </table>
+      </div>
+      <div class="modal-footer"><span class="modal-close waves-effect waves-red btn-flat" id="rejectPayment">Reject</span><span class="modal-close waves-effect waves-green btn-flat" id="acceptPayment">Accept</span></div>
+    </div>
+    <script src="./dist/index.js"></script>
+  </body>
+</html>
